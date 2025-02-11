@@ -3,8 +3,10 @@ title: "CMSC 608 - Homework 2: Entity-Relation Diagrams"
 author: "Harshith Nallapu"
 
 output: html_document
-url: "[YOUR_GITHUB_REPO_URL]"
+
 ---
+
+git hub url:  [https://github.com/HarshithNallapu/Advance-Database]( https://github.com/HarshithNallapu/Advance-Database)
 
 # Introduction
 Entity-Relation (ER) diagrams are a fundamental part of database design, serving as a blueprint for structuring data. This report presents ER diagrams for four selected problems, using both Chen notation (Graphviz) and Crow’s Foot notation (Mermaid).
