@@ -1,0 +1,211 @@
+---
+title: "CMSC 608 - Homework 2: Entity-Relation Diagrams"
+author: "Harshith Nallapu"
+
+output: html_document
+url: "[YOUR_GITHUB_REPO_URL]"
+---
+
+# Introduction
+Entity-Relation (ER) diagrams are a fundamental part of database design, serving as a blueprint for structuring data. This report presents ER diagrams for four selected problems, using both Chen notation (Graphviz) and Crow’s Foot notation (Mermaid).
+
+# Selected Problems
+For this assignment, I have chosen the following four problems:
+1. **Library Management System**
+2. **Restaurant Reservation System**
+3. **School Course Enrollment System**
+4. **Sports Tournament Management System**
+
+---
+
+# Library Management System
+## Chen Notation (Graphviz)
+```{dot}
+digraph LibraryManagement {
+    node [shape=ellipse];
+    Book [label="Book"];
+    Member [label="Member"];
+    Loan [label="Loan"];
+    
+    BookID [label="Book ID", shape=ellipse, style=bold];
+    Title [label="Title", shape=ellipse];
+    Author [label="Author", shape=ellipse];
+    MemberID [label="Member ID", shape=ellipse, style=bold];
+    Name [label="Name", shape=ellipse];
+    MembershipDate [label="Membership Date", shape=ellipse];
+    LoanID [label="Loan ID", shape=ellipse, style=bold];
+    LoanDate [label="Loan Date", shape=ellipse];
+    ReturnDate [label="Return Date", shape=ellipse];
+    
+    edge [dir=none];
+    Book -> {BookID Title Author};
+    Member -> {MemberID Name MembershipDate};
+    Loan -> {LoanID LoanDate ReturnDate};
+    
+    edge [dir=both];
+    Member -> Loan [label="borrows", shape=diamond];
+    Book -> Loan [label="loaned in", shape=diamond];
+}
+```
+
+## Crow’s Foot Notation (Mermaid)
+```{mermaid}
+erDiagram
+    BOOK ||--o{ LOAN : "is loaned in"
+    MEMBER ||--o{ LOAN : "borrows"
+    BOOK {
+        int book_id
+        string title
+        string author
+    }
+    MEMBER {
+        int member_id
+        string name
+        date membership_date
+    }
+    LOAN {
+        int loan_id
+        date loan_date
+        date return_date
+    }
+```
+
+## Relation Schema
+- Book(book_id, title, author)
+- Member(member_id, name, membership_date)
+- Loan(loan_id, loan_date, return_date, member_id, book_id)
+
+---
+
+# Restaurant Reservation System
+## Chen Notation (Graphviz)
+```{dot}
+digraph RestaurantReservation {
+    node [shape=ellipse];
+    Reservation [label="Reservation"];
+    Customer [label="Customer"];
+    Table [label="Table"];
+    
+    ReservationID [label="Reservation ID", shape=ellipse, style=bold];
+    Date [label="Date", shape=ellipse];
+    Time [label="Time", shape=ellipse];
+    CustomerID [label="Customer ID", shape=ellipse, style=bold];
+    Name [label="Name", shape=ellipse];
+    ContactNumber [label="Contact Number", shape=ellipse];
+    TableNumber [label="Table Number", shape=ellipse, style=bold];
+    SeatingCapacity [label="Seating Capacity", shape=ellipse];
+    Location [label="Location", shape=ellipse];
+    
+    edge [dir=none];
+    Reservation -> {ReservationID Date Time};
+    Customer -> {CustomerID Name ContactNumber};
+    Table -> {TableNumber SeatingCapacity Location};
+    
+    edge [dir=both];
+    Customer -> Reservation [label="makes", shape=diamond];
+    Table -> Reservation [label="is reserved for", shape=diamond];
+}
+```
+
+## Crow’s Foot Notation (Mermaid)
+```{mermaid}
+erDiagram
+    CUSTOMER ||--o{ RESERVATION : "makes"
+    TABLE ||--o{ RESERVATION : "is reserved for"
+    CUSTOMER {
+        int customer_id
+        string name
+        string contact_number
+    }
+    TABLE {
+        int table_number
+        int seating_capacity
+        string location
+    }
+    RESERVATION {
+        int reservation_id
+        date date
+        time time
+    }
+```
+
+## Relation Schema
+- Customer(customer_id, name, contact_number)
+- Table(table_number, seating_capacity, location)
+- Reservation(reservation_id, date, time, customer_id, table_number)
+
+---
+
+# Sports Tournament Management System
+## Chen Notation (Graphviz)
+```{dot}
+digraph SportsTournament {
+    node [shape=ellipse];
+    Team [label="Team"];
+    Match [label="Match"];
+    Referee [label="Referee"];
+    
+    TeamID [label="Team ID", shape=ellipse, style=bold];
+    TeamName [label="Name", shape=ellipse];
+    Coach [label="Coach", shape=ellipse];
+    MatchID [label="Match ID", shape=ellipse, style=bold];
+    MatchDate [label="Date", shape=ellipse];
+    Location [label="Location", shape=ellipse];
+    RefereeID [label="Referee ID", shape=ellipse, style=bold];
+    RefereeName [label="Name", shape=ellipse];
+    Certification [label="Certification", shape=ellipse];
+    
+    edge [dir=none];
+    Team -> {TeamID TeamName Coach};
+    Match -> {MatchID MatchDate Location};
+    Referee -> {RefereeID RefereeName Certification};
+    
+    edge [dir=both];
+    Team -> Match [label="participates in", shape=diamond];
+    Referee -> Match [label="officiates", shape=diamond];
+}
+```
+
+## Crow’s Foot Notation (Mermaid)
+```{mermaid}
+erDiagram
+    TEAM ||--o{ MATCH : "participates in"
+    REFEREE ||--o{ MATCH : "officiates"
+    TEAM {
+        int team_id
+        string name
+        string coach
+    }
+    MATCH {
+        int match_id
+        date date
+        string location
+    }
+    REFEREE {
+        int referee_id
+        string name
+        string certification
+    }
+```
+
+## Relation Schema
+- Team(team_id, name, coach)
+- Match(match_id, date, location)
+- Referee(referee_id, name, certification)
+- Participation(team_id, match_id)
+
+---
+
+# Design Decisions
+- **Weak Entities:** No weak entities were introduced as all relationships were direct and required minimal dependencies.
+- **Composite vs. Atomic Attributes:** Simple attributes were used for clarity.
+- **Multi-Valued Attributes:** Instead of multi-valued attributes, separate entities were created to avoid redundancy and maintain normalization.
+
+# Conclusion
+This report outlines ER diagrams for four systems using both Chen and Crow’s Foot notation. Design choices were made to ensure normalization and clarity in data relationships.
+
+---
+
+# References
+- CMSC 608 Course Materials
+- Database Design Principles
